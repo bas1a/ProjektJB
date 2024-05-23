@@ -1,0 +1,76 @@
+<!-- Dropdown for Employee -->
+@if (User.IsInRole("Główna księgowa"))
+{
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Pracownicy
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="employeeDropdown">
+        <li>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Create">
+                <i class="bi bi-file-earmark-plus"></i> Dodaj pracownika
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Index">
+                <i class="bi bi-list-ol"></i> Lista pracowników
+            </a>
+        </li>
+    </ul>
+</li>
+}
+<!-- Dropdown for Customers -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="customersDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Klienci
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="customersDropdown">
+        <li>
+            <a class="dropdown-item" asp-controller="Customers" asp-action="Create">
+                <i class="bi bi-file-earmark-person"></i> Dodaj klienta
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-controller="Customers" asp-action="Index">
+                <i class="bi bi-card-checklist"></i> Lista klientów
+            </a>
+        </li>
+    </ul>
+</li>
+<!-- Dropdown for Invoices -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="invoicesDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Faktury
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="invoicesDropdown">
+        <li>
+            <a class="dropdown-item" asp-controller="Invoices" asp-action="Create">
+                <i class="bi bi-file-earmark-plus"></i> Dodaj fakturę
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-controller="Invoices" asp-action="Index">
+                <i class="bi bi-list-ol"></i> Lista faktur
+            </a>
+        </li>
+    </ul>
+</li>
+<!-- Dropdown for Logout -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="logOutDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        @User.Identity?.Name
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="logOutDropdown">
+        <li>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                <button type="submit" class="dropdown-item"> <i class="bi bi-box-arrow-left"></i>
+                    Wyloguj
+                </button>
+            </form>
+        </li>
+    </ul>
+</li>

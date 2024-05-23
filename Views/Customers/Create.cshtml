@@ -1,0 +1,90 @@
+@model AccountingProgram.Models.CustomerCreateViewModel
+
+@{
+    ViewData["Title"] = "Dodaj klienta";
+}
+
+<div class="container col-10 mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="text-center m-1">@ViewData["Title"]</h4>
+        </div>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="cadr-body p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="" autofocus />
+                            <label asp-for="Name" class="control-label"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="NIPNumber" class="form-control" placeholder="" />
+                            <label asp-for="NIPNumber" class="control-label"></label>
+                            <span asp-validation-for="NIPNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="" />
+                            <label asp-for="PhoneNumber" class="control-label"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="" />
+                            <label asp-for="Email" class="control-label"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <p class="text-center">Pola dodatkowe</p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="City" class="form-control" placeholder="" />
+                            <label asp-for="City" class="control-label"></label>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Street" class="form-control" placeholder="" />
+                            <label asp-for="Street" class="control-label"></label>
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Address" class="form-control" placeholder="" />
+                            <label asp-for="Address" class="control-label"></label>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="PostalCode" class="form-control" placeholder="" />
+                            <label asp-for="PostalCode" class="control-label"></label>
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="form-group">
+                    <input type="submit" value="Dodaj" class="btn btn-outline-dark w-100" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

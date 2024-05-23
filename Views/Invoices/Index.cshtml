@@ -1,0 +1,84 @@
+@using System.Globalization
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<AccountingProgram.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Lista faktur";
+}
+
+<link rel="stylesheet" href="~/css/invoices.css" asp-append-version="true" />
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                    @if (User.IsInRole("Główna księgowa"))
+                    {
+                        <h4 class="card-title mb-0">Lista wszystkich faktur</h4>
+                    }
+                    else
+                    {
+                        <h4 class="card-title mb-0">Moje faktury</h4>
+                    }
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-outline-dark" asp-controller="Invoices" asp-action="Create"
+                        role="button"><i class="bi bi-plus-lg"></i> Dodaj nową fakturę</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Numer Faktury</th>
+                                <th>Data wystawienia</th>
+                                <th>Klient</th>
+                                <th>Kwota Całkowita</th>
+                                <th>Uwagi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var invoice in Model)
+                            {
+                                <tr class="clickable-row" data-url="@Url.Action("Details", new { id = invoice.InvoiceId })">
+                                    <td>@invoice.InvoiceId</td>
+                                    <td>@invoice.IssueDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@invoice.Customer?.Name</td>
+                                    <td>@invoice.TotalAmount.ToString("C", new CultureInfo("pl-PL"))</td>
+                                    <td>@invoice.Notes</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info" role="alert">Brak faktur do wyświetlenia.</div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("url");
+            });
+        });
+    </script>
+}

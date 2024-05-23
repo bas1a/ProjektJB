@@ -1,0 +1,142 @@
+@model InvoiceCreateViewModel
+
+@{
+    ViewData["Title"] = "Dodaj fakturę";
+}
+
+<div class="container col-10 mt-5">
+    <div class="card">
+        <div class="card-header">
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <h2 class="text-center m-1">Dodaj fakturę</h2>
+        </div>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="card-body p-3 mt-3">
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.Customers">
+                                <option value="">Wybierz klienta</option>
+                            </select>
+                            <label asp-for="CustomerId">Klient</label>
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="InvoiceDate" asp-for="IssueDate"
+                                placeholder="Data faktury">
+                            <label asp-for="IssueDate"></label>
+                            <span asp-validation-for="IssueDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="SaleDate" asp-for="SaleDate"
+                                placeholder="Data faktury">
+                            <label asp-for="SaleDate"></label>
+                            <span asp-validation-for="SaleDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="invoiceItems">
+                    @for (int i = 0; i < (Model.Items?.Count ?? 0); i++)
+                    {
+                        <div class="invoiceItem">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label asp-for="Items[i].Description"></label>
+                                    <input asp-for="Items[i].Description" class="form-control" />
+                                    <span asp-validation-for="Items[i].Description" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-2">
+                                    <label asp-for="Items[i].Quantity"></label>
+                                    <input asp-for="Items[i].Quantity" class="form-control" />
+                                    <span asp-validation-for="Items[i].Quantity" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-2">
+                                    <label asp-for="Items[i].UnitPrice"></label>
+                                    <input asp-for="Items[i].UnitPrice" class="form-control" />
+                                    <span asp-validation-for="Items[i].UnitPrice" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-2">
+                                    <label asp-for="Items[i].TotalPrice"></label>
+                                    <input asp-for="Items[i].TotalPrice" class="form-control" readonly />
+                                    <span asp-validation-for="Items[i].TotalPrice" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-1">
+                                    <label class="text-white">Usuń</label>
+                                    <button type="button" class="btn btn-danger btn-sm removeItem"
+                                        onclick="$(this).closest('.invoiceItem').remove();">
+                                        Usuń
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button type="button" class="btn btn-outline-dark my-3 w-100" id="addNewItem">Dodaj pozycję na
+                    fakturze</button>
+
+                <hr class="my-4">
+
+                <div class="row my-5">
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <select class="form-control" id="PaymentMethod" asp-for="PaymentMethod"
+                                asp-items="ViewBag.PaymentMethods">
+                                <option value="">Wybierz metodę płatności</option>
+                            </select>
+                            <label asp-for="PaymentMethod"></label>
+                            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="Notes" asp-for="Notes" placeholder="Uwagi">
+                            <label asp-for="Notes"></label>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="totalAmount" asp-for="TotalAmount"
+                                placeholder="Kwota całkowita" readonly>
+                            <label asp-for="TotalAmount"></label>
+                            <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-outline-dark m-1 w-100">Dodaj fakturę</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js/createAndEditInvoice.js"></script>

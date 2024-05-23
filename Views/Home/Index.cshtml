@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Program Księgowy";
+}
+
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+<div class="container col-md-8 mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>Witaj @ViewBag.FirstName w Programie Księgowym!</h2>
+        </div>
+        <div class="card-body">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <div class="logo">
+                <img src="~/images/logo.jpg" asp-append-version="true" alt="Logo firmy" class="w-100">
+            </div>
+        </div>
+        <div class="card-footer">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <div class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav ms-auto">
+                            <partial name="_DropDownItems" />
+                        </ul>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <a class="btn btn-outline-dark m-1 w-100" asp-area="" asp-controller="Account" asp-action="Login"
+                    role="button">
+                    <i class="bi bi-box-arrow-right"></i> Zaloguj się
+                </a>
+            }
+        </div>
+    </div>
+</div>

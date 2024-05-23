@@ -1,0 +1,182 @@
+@using System.Globalization
+@model AccountingProgram.Models.Invoice
+
+@{
+    ViewData["Title"] = "Szczegóły faktury";
+}
+
+<div class="container col-md-10 my-5">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Szczegóły Faktury</h2>
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <h5>Informacje o fakturze</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                @if (Model != null && Model.User != null)
+                                {
+                                    <tr>
+                                        <th scope="row">Numer Faktury</th>
+                                        <td>@Model.InvoiceId</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Data sprzedaży</th>
+                                        <td>@Model.SaleDate.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Data wystawienia</th>
+                                        <td>@Model.IssueDate.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Wystawione przez</th>
+                                        <td>@Model.User.FirstName @Model.User.LastName</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Metoda płatności</th>
+                                        <td>@Model.PaymentMethod</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Adnotacje</th>
+                                        <td>@Model.Notes</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Kwota Całkowita</th>
+                                        <td><strong>@Model.TotalAmount.ToString("C", new CultureInfo("pl-PL"))</strong></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <h5>Informacje o kliencie</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                @if (Model != null && Model.Customer != null)
+                                {
+                                    <tr>
+                                        <th scope="row">Nazwa</th>
+                                        <td>@Model.Customer.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">NIP</th>
+                                        <td>@Model.Customer.NIPNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>@Model.Customer.Email</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Telefon</th>
+                                        <td>@Model.Customer.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Miasto</th>
+                                        <td>@Model.Customer.City</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Ulica</th>
+                                        <td>@Model.Customer.Street</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Adres</th>
+                                        <td>@Model.Customer.Address</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Kod pocztowy</th>
+                                        <td>@Model.Customer.PostalCode</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-secondary me-2">
+                        <i class="bi bi-arrow-left"></i> Powrót do listy faktur
+                    </a>
+                    <a href="@Url.Action("Edit", new { id = Model?.InvoiceId })" class="btn btn-outline-primary me-2">
+                        <i class="bi bi-pencil"></i> Edytuj fakturę
+                    </a>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash"></i> Usuń fakturę
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Pozycje na fakturze</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Opis</th>
+                            <th>Ilość</th>
+                            <th>Cena Jednostkowa</th>
+                            <th>Kwota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.InvoiceItems != null)
+                        {
+                            foreach (var item in Model.InvoiceItems)
+                            {
+                                <tr>
+                                    <td>@item.Description</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice.ToString("C", new CultureInfo("pl-PL"))</td>
+                                    <td>@item.TotalPrice.ToString("C", new CultureInfo("pl-PL"))</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Bootstrap do potwierdzenia usunięcia -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Potwierdzenie usunięcia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Czy jesteś pewien, że chcesz usunąć tę fakturę?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <form asp-action="Delete" asp-controller="Invoices" asp-route-id="@Model?.InvoiceId" method="post">
+                    <button type="submit" class="btn btn-danger">Usuń</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

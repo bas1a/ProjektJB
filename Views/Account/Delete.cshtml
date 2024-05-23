@@ -1,0 +1,38 @@
+@model User
+
+@{
+    ViewData["Title"] = "Usuń pracownika";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="text-center m-1">@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            <h4 class="text-danger text-center">Czy na pewno chcesz usunąć tego pracownika?</h4>
+            <div class="mt-4">
+                <h5 class="mb-3">Informacje o pracowniku:</h5>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-3">Imię:</dt>
+                    <dd class="col-sm-9">@Model.FirstName</dd>
+                    <dt class="col-sm-3">Nazwisko:</dt>
+                    <dd class="col-sm-9">@Model.LastName</dd>
+                    <dt class="col-sm-3">Telefon:</dt>
+                    <dd class="col-sm-9">@Model.PhoneNumber</dd>
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">@Model.Email</dd>
+                    
+                </dl>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <form asp-action="Delete" class="d-inline">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Usuń" class="btn btn-danger mx-2" />
+            </form>
+            <a asp-action="Index" class="btn btn-secondary mx-2">Anuluj</a>
+        </div>
+    </div>
+</div>

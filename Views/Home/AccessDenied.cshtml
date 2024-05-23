@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Dostęp Zabroniony";
+    var returnUrl = Context.Request.Query["ReturnUrl"].ToString();
+    string message = "Nie posiadasz uprawnień do wykonania tej czynności.";
+
+    if (returnUrl.Contains("/Delete/"))
+    {
+        message = "Nie masz uprawnień do usuwania danych.";
+    }
+    else if (returnUrl.Contains("/Edit/"))
+    {
+        message = "Nie masz uprawnień do edycji.";
+    }
+}
+
+<div class="container col-md-8">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Dostęp Zabroniony</h2>
+        </div>
+        <div class="card-body">
+            <h3 class="alert alert-danger" role="alert">@message</h3>
+        </div>
+        <div class="card-footer">
+            @if (!string.IsNullOrEmpty(ViewData["RefererUrl"] as string))
+            {
+                <a class="btn btn-outline-dark w-100" href="@ViewData["RefererUrl"]">Powrót</a>
+            }
+            else
+            {
+                <a class="btn btn-outline-dark w-100" asp-controller="Home" asp-action="Index">Powrót do strony
+                    głównej</a>
+            }
+        </div>
+    </div>
+</div>
