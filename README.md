@@ -1,4 +1,4 @@
-# Accounting Program
+## Accounting Program
 
 ## Opis
 Aplikacja **Accounting Program** to proste narzędzie do zarządzania fakturami, stworzone z wykorzystaniem ASP.NET MVC 8.0. Umożliwia tworzenie, edycję, przeglądanie oraz usuwanie faktur wraz z ich szczegółowymi pozycjami.
